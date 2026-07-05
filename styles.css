@@ -1,0 +1,681 @@
+/* ============================================================
+   CV Maker — styles.css
+   Two-column responsive layout: form panel (left) + preview (right)
+   ============================================================ */
+
+/* ── Reset & base ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-bg:          #f5f6f8;
+  --color-panel-bg:    #ffffff;
+  --color-border:      #dde1e7;
+  --color-text:        #1a1a2e;
+  --color-text-muted:  #6b7280;
+  --color-accent:      #2563eb;
+  --color-accent-dark: #1d4ed8;
+  --color-danger:      #dc2626;
+  --color-danger-dark: #b91c1c;
+  --color-success:     #16a34a;
+  --color-error-bg:    #fef2f2;
+  --color-error-text:  #b91c1c;
+  --color-toggle-off:  #d1d5db;
+  --color-toggle-on:   #2563eb;
+  --font-ui:           system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-cv:           'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --radius:            6px;
+  --shadow-panel:      0 1px 4px rgba(0,0,0,.08);
+  --panel-width:       420px;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.5;
+}
+
+/* ============================================================
+   App layout — single column, centered form
+   ============================================================ */
+.app-layout {
+  min-height: 100vh;
+  background: var(--color-bg);
+  display: flex;
+  justify-content: center;
+  padding: 40px 24px 80px;
+}
+
+.form-panel {
+  width: 100%;
+  max-width: 760px;
+  background: var(--color-panel-bg);
+  border-radius: 10px;
+  box-shadow: 0 2px 16px rgba(0,0,0,.07);
+  height: fit-content;
+}
+
+.form-panel-inner {
+  padding: 40px 48px 48px;
+}
+
+/* ============================================================
+   App title
+   ============================================================ */
+.app-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: 20px;
+  letter-spacing: -.01em;
+}
+
+/* ============================================================
+   Profile photo upload
+   ============================================================ */
+.photo-upload-area {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.photo-preview-wrap {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--color-border);
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-placeholder {
+  color: #9ca3af;
+}
+
+.photo-upload-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.photo-file-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.photo-upload-btn {
+  cursor: pointer;
+  width: fit-content;
+}
+
+.photo-remove-btn {
+  width: fit-content;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+/* ============================================================
+   Form sections
+   ============================================================ */
+.form-section {
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.form-section:last-of-type {
+  border-bottom: none;
+}
+
+.section-heading {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--color-text-muted);
+  margin-bottom: 14px;
+}
+
+.section-hint {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+/* ── Field groups ── */
+.field-group {
+  margin-bottom: 12px;
+}
+
+.field-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
+.field-group input[type="text"],
+.field-group input[type="email"],
+.field-group input[type="tel"],
+.field-group input[type="url"],
+.field-group input[type="month"],
+.field-group select,
+.field-group textarea {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-text);
+  background: #fff;
+  transition: border-color .15s, box-shadow .15s;
+  appearance: none;
+}
+
+.field-group input:focus,
+.field-group select:focus,
+.field-group textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+}
+
+.field-group textarea {
+  resize: vertical;
+  min-height: 72px;
+}
+
+/* Inline validation error state */
+.field-group input.is-invalid,
+.field-group textarea.is-invalid,
+.field-group select.is-invalid {
+  border-color: var(--color-danger);
+  background: var(--color-error-bg);
+}
+
+.field-error {
+  display: block;
+  font-size: 11px;
+  color: var(--color-error-text);
+  margin-top: 3px;
+  min-height: 14px;
+}
+
+.field-hint {
+  display: block;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 3px;
+}
+
+.char-count {
+  display: block;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-align: right;
+  margin-top: 2px;
+}
+
+/* Required asterisk */
+.required {
+  color: var(--color-danger);
+  margin-left: 2px;
+}
+
+/* Inline field row (side-by-side fields) */
+.field-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.field-row .field-group {
+  flex: 1;
+  min-width: 100px;
+}
+
+.field-group--checkbox {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 2px;
+  min-width: auto !important;
+  flex: 0 0 auto !important;
+}
+
+.field-group--checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-text);
+  cursor: pointer;
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+
+.field-group--checkbox input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+/* ============================================================
+   Repeating entries
+   ============================================================ */
+.repeating-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.entry-row {
+  position: relative;
+  background: #f9fafb;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 14px 14px 10px;
+}
+
+.entry-fields {
+  /* fields inside an entry */
+}
+
+.btn-remove-entry {
+  display: block;
+  margin-top: 8px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-danger);
+  background: transparent;
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+
+.btn-remove-entry:hover {
+  background: var(--color-danger);
+  color: #fff;
+}
+
+.btn-add-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-accent);
+  background: transparent;
+  border: 1px dashed var(--color-accent);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-add-entry:hover {
+  background: rgba(37,99,235,.06);
+}
+
+/* ============================================================
+   Optional section toggles
+   ============================================================ */
+.optional-toggles-section .section-heading {
+  margin-bottom: 6px;
+}
+
+.optional-section {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text);
+  background: #f9fafb;
+  user-select: none;
+  transition: background .15s;
+}
+
+.toggle-label:hover {
+  background: #f0f4ff;
+}
+
+/* Hide the native checkbox visually */
+.optional-toggle {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Custom toggle switch */
+.toggle-switch {
+  display: inline-block;
+  width: 34px;
+  height: 18px;
+  background: var(--color-toggle-off);
+  border-radius: 9px;
+  position: relative;
+  flex-shrink: 0;
+  transition: background .2s;
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+  transition: transform .2s;
+}
+
+.optional-toggle:checked + .toggle-switch {
+  background: var(--color-toggle-on);
+}
+
+.optional-toggle:checked + .toggle-switch::after {
+  transform: translateX(16px);
+}
+
+.optional-toggle:focus-visible + .toggle-switch {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.optional-section-fields {
+  padding: 14px;
+  border-top: 1px solid var(--color-border);
+  background: #fff;
+}
+
+/* ============================================================
+   Action bar
+   ============================================================ */
+.action-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .15s, opacity .15s;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-dark);
+}
+
+.btn-save {
+  background: var(--color-success);
+  color: #fff;
+}
+
+.btn-save:hover {
+  background: #15803d;
+}
+
+.btn-secondary {
+  background: #e5e7eb;
+  color: var(--color-text);
+}
+
+.btn-secondary:hover {
+  background: #d1d5db;
+}
+
+.btn-danger {
+  background: transparent;
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger);
+}
+
+.btn-danger:hover {
+  background: var(--color-danger);
+  color: #fff;
+}
+
+.btn-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Save status notice ── */
+.save-status {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  min-height: 18px;
+}
+
+.save-status.saving  { color: var(--color-text-muted); }
+.save-status.saved   { color: var(--color-success); }
+.save-status.error   { color: var(--color-danger); }
+
+/* ============================================================
+   Preview pane — CV typography (mirrors template.php inline CSS)
+   ============================================================ */
+.preview-pane {
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  color: #1c1c1e;
+}
+
+.preview-pane .cv-name {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-size: 2.2em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: #1c1c1e;
+  margin-bottom: 10px;
+}
+
+.preview-pane .cv-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  border-bottom: 2px solid #1c1c1e;
+  padding-bottom: 24px;
+  margin-bottom: 28px;
+}
+
+.preview-pane .cv-contact-text { width: 100%; }
+
+.preview-pane .cv-photo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  border: 3px solid #e8e8e8;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+}
+
+.preview-pane .cv-contact-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 0;
+  font-size: 0.82em;
+  color: #555;
+}
+
+.preview-pane .cv-meta-item { white-space: nowrap; }
+.preview-pane .cv-meta-sep { color: #bbb; padding: 0 8px; }
+
+.preview-pane .cv-section { margin-bottom: 24px; }
+
+.preview-pane .cv-section-heading {
+  font-size: 0.68em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #888;
+  border-bottom: 1px solid #e8e8e8;
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+}
+
+.preview-pane .cv-section-body { }
+
+.preview-pane .cv-summary .cv-section-body {
+  font-size: 0.93em;
+  color: #3a3a3a;
+  line-height: 1.75;
+}
+
+.preview-pane .cv-para { margin-bottom: 6px; }
+
+.preview-pane .cv-entry { margin-bottom: 18px; }
+
+.preview-pane .cv-entry-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 3px;
+  flex-wrap: wrap;
+}
+
+.preview-pane .cv-entry-left { flex: 1; }
+
+.preview-pane .cv-entry-title {
+  font-size: 0.95em;
+  font-weight: 600;
+  color: #1c1c1e;
+  display: block;
+}
+
+.preview-pane .cv-entry-org {
+  font-size: 0.86em;
+  font-weight: 400;
+  color: #666;
+  display: block;
+  margin-top: 1px;
+}
+
+.preview-pane .cv-entry-dates {
+  font-size: 0.78em;
+  font-weight: 500;
+  color: #999;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.preview-pane .cv-entry-body {
+  font-size: 0.86em;
+  color: #4a4a4a;
+  line-height: 1.65;
+  margin-top: 5px;
+}
+
+.preview-pane .cv-entry-honours {
+  font-size: 0.82em;
+  font-style: italic;
+  color: #777;
+  margin-top: 3px;
+  display: block;
+}
+
+.preview-pane .cv-entry-url {
+  font-size: 0.82em;
+  color: #2563eb;
+  display: block;
+  margin-top: 2px;
+}
+
+.preview-pane .cv-skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.preview-pane .cv-skill-tag {
+  background: #f4f4f5;
+  color: #3a3a3a;
+  border: 1px solid #e4e4e7;
+  border-radius: 4px;
+  padding: 3px 11px;
+  font-size: 0.82em;
+  font-weight: 500;
+}
+
+/* ============================================================
+   Responsive — narrow screens
+   ============================================================ */
+@media (max-width: 860px) {
+  .form-panel-inner {
+    padding: 28px 24px 40px;
+  }
+}

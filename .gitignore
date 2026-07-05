@@ -1,0 +1,27 @@
+# ── Environment & secrets ──
+.env
+.env.*
+!.env.example
+
+# ── Composer dependencies ──
+/vendor/
+
+# ── PHP cache & test artifacts ──
+.phpunit.result.cache
+/coverage/
+
+# ── IDE & editor ──
+.vscode/
+.idea/
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+
+# ── Kiro AI workspace files ──
+.kiro/
+
+# ── Temp / debug scripts ──
+_test_*.php
+_run_*.php
+_create_*.php

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV Maker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-layout">
+
+    <!-- ===== FULL WIDTH: Form ===== -->
+    <div class="form-panel">
+      <div class="form-panel-inner">
+        <h1 class="app-title">CV Maker</h1>
+
+        <form id="cv-form" novalidate>
+
+          <!-- ── Profile Photo ── -->
+          <section class="form-section" data-section="photo">
+            <h2 class="section-heading">Profile Photo</h2>
+            <div class="photo-upload-area">
+              <div class="photo-preview-wrap">
+                <img id="photo-preview" class="photo-preview" src="" alt="Profile photo preview" hidden>
+                <div id="photo-placeholder" class="photo-placeholder" aria-hidden="true">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                </div>
+              </div>
+              <div class="photo-upload-controls">
+                <label for="photo-input" class="btn btn-secondary photo-upload-btn">Choose Photo</label>
+                <input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp" class="photo-file-input">
+                <button type="button" id="photo-remove" class="btn btn-danger photo-remove-btn" hidden>Remove</button>
+                <span class="field-hint">JPEG, PNG or WebP · max 2 MB</span>
+                <span class="field-error" id="err-photo"></span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ── Contact Information ── -->
+          <section class="form-section" data-section="contact">
+            <h2 class="section-heading">Contact Information</h2>
+            <div class="field-group">
+              <label for="contact-name">Full Name <span class="required">*</span></label>
+              <input type="text" id="contact-name" name="contact[name]" placeholder="Jane Smith" required>
+              <span class="field-error" id="err-contact-name"></span>
+            </div>
+            <div class="field-group">
+              <label for="contact-phone">Phone Number <span class="required">*</span></label>
+              <input type="tel" id="contact-phone" name="contact[phone]" placeholder="+1 555 000 0000" required>
+              <span class="field-error" id="err-contact-phone"></span>
+            </div>
+            <div class="field-group">
+              <label for="contact-email">Email Address <span class="required">*</span></label>
+              <input type="email" id="contact-email" name="contact[email]" placeholder="jane@example.com" required>
+              <span class="field-error" id="err-contact-email"></span>
+            </div>
+            <div class="field-group">
+              <label for="contact-linkedin">LinkedIn URL</label>
+              <input type="url" id="contact-linkedin" name="contact[linkedin]" placeholder="https://linkedin.com/in/janesmith">
+              <span class="field-error" id="err-contact-linkedin"></span>
+            </div>
+            <div class="field-group">
+              <label for="contact-address">Postal Address</label>
+              <input type="text" id="contact-address" name="contact[address]" placeholder="123 Main St, City, Country">
+            </div>
+          </section>
+
+          <!-- ── Professional Summary ── -->
+          <section class="form-section" data-section="summary">
+            <h2 class="section-heading">Professional Summary</h2>
+            <div class="field-group">
+              <label for="summary-text">Summary <span class="required">*</span></label>
+              <textarea id="summary-text" name="summary" rows="5" maxlength="1000"
+                placeholder="A brief overview of your professional background and goals…" required></textarea>
+              <span class="field-error" id="err-summary"></span>
+              <span class="char-count"><span id="summary-count">0</span>/1000</span>
+            </div>
+          </section>
+
+          <!-- ── Work Experience ── -->
+          <section class="form-section" data-section="work_experience">
+            <h2 class="section-heading">Work Experience</h2>
+            <div id="work-entries" class="repeating-entries">
+              <!-- Entry template — cloned by JS -->
+              <div class="entry-row" data-entry="work">
+                <div class="entry-fields">
+                  <div class="field-group">
+                    <label>Job Title <span class="required">*</span></label>
+                    <input type="text" name="work_experience[][job_title]" placeholder="Software Engineer" required>
+                    <span class="field-error"></span>
+                  </div>
+                  <div class="field-group">
+                    <label>Company <span class="required">*</span></label>
+                    <input type="text" name="work_experience[][company]" placeholder="Acme Corp" required>
+                    <span class="field-error"></span>
+                  </div>
+                  <div class="field-row">
+                    <div class="field-group">
+                      <label>Start Date <span class="required">*</span></label>
+                      <input type="month" name="work_experience[][start_date]" required>
+                      <span class="field-error"></span>
+                    </div>
+                    <div class="field-group">
+                      <label>End Date <span class="required">*</span></label>
+                      <input type="month" name="work_experience[][end_date]">
+                      <span class="field-error"></span>
+                    </div>
+                    <div class="field-group field-group--checkbox">
+                      <label>
+                        <input type="checkbox" name="work_experience[][present]" value="1">
+                        Present
+                      </label>
+                    </div>
+                  </div>
+                  <div class="field-group">
+                    <label>Responsibilities / Achievements <span class="required">*</span></label>
+                    <textarea name="work_experience[][responsibilities]" rows="3"
+                      placeholder="Describe your key responsibilities and achievements…" required></textarea>
+                    <span class="field-error"></span>
+                  </div>
+                </div>
+                <button type="button" class="btn-remove-entry" aria-label="Remove work experience entry">Remove</button>
+              </div>
+            </div>
+            <button type="button" class="btn-add-entry" data-target="work-entries" data-entry="work">
+              + Add Work Experience
+            </button>
+          </section>
+
+          <!-- ── Skills ── -->
+          <section class="form-section" data-section="skills">
+            <h2 class="section-heading">Skills</h2>
+            <div class="field-group">
+              <label for="skills-input">Skills <span class="required">*</span></label>
+              <input type="text" id="skills-input" name="skills"
+                placeholder="e.g. JavaScript, PHP, MySQL, Docker (comma-separated)" required>
+              <span class="field-error" id="err-skills"></span>
+              <span class="field-hint">Separate skills with commas</span>
+            </div>
+          </section>
+
+          <!-- ── Education ── -->
+          <section class="form-section" data-section="education">
+            <h2 class="section-heading">Education</h2>
+            <div id="education-entries" class="repeating-entries">
+              <div class="entry-row" data-entry="education">
+                <div class="entry-fields">
+                  <div class="field-group">
+                    <label>Degree / Qualification <span class="required">*</span></label>
+                    <input type="text" name="education[][degree]" placeholder="BSc Computer Science" required>
+                    <span class="field-error"></span>
+                  </div>
+                  <div class="field-group">
+                    <label>Institution <span class="required">*</span></label>
+                    <input type="text" name="education[][institution]" placeholder="University of Example" required>
+                    <span class="field-error"></span>
+                  </div>
+                  <div class="field-row">
+                    <div class="field-group">
+                      <label>Graduation Date <span class="required">*</span></label>
+                      <input type="month" name="education[][graduation_date]" required>
+                      <span class="field-error"></span>
+                    </div>
+                    <div class="field-group">
+                      <label>Honours / Distinctions</label>
+                      <input type="text" name="education[][honours]" placeholder="First Class Honours">
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn-remove-entry" aria-label="Remove education entry">Remove</button>
+              </div>
+            </div>
+            <button type="button" class="btn-add-entry" data-target="education-entries" data-entry="education">
+              + Add Education
+            </button>
+          </section>
+
+          <!-- ── Optional Sections ── -->
+          <section class="form-section optional-toggles-section">
+            <h2 class="section-heading">Optional Sections</h2>
+            <p class="section-hint">Toggle sections to include them in your CV.</p>
+
+            <!-- Projects / Portfolio -->
+            <div class="optional-section" id="optional-projects">
+              <label class="toggle-label">
+                <input type="checkbox" class="optional-toggle" data-section="projects">
+                <span class="toggle-switch" aria-hidden="true"></span>
+                Projects / Portfolio
+              </label>
+              <div class="optional-section-fields" hidden>
+                <div id="projects-entries" class="repeating-entries">
+                  <div class="entry-row" data-entry="projects">
+                    <div class="entry-fields">
+                      <div class="field-group">
+                        <label>Project Name</label>
+                        <input type="text" name="optional_sections[projects][entries][][name]" placeholder="My Project">
+                      </div>
+                      <div class="field-group">
+                        <label>URL</label>
+                        <input type="url" name="optional_sections[projects][entries][][url]" placeholder="https://github.com/…">
+                      </div>
+                      <div class="field-group">
+                        <label>Description</label>
+                        <textarea name="optional_sections[projects][entries][][description]" rows="2"></textarea>
+                      </div>
+                    </div>
+                    <button type="button" class="btn-remove-entry" aria-label="Remove project entry">Remove</button>
+                  </div>
+                </div>
+                <button type="button" class="btn-add-entry" data-target="projects-entries" data-entry="projects">
+                  + Add Project
+                </button>
+              </div>
+            </div>
+
+            <!-- Certifications & Licenses -->
+            <div class="optional-section" id="optional-certifications">
+              <label class="toggle-label">
+                <input type="checkbox" class="optional-toggle" data-section="certifications">
+                <span class="toggle-switch" aria-hidden="true"></span>
+                Certifications &amp; Licenses
+              </label>
+              <div class="optional-section-fields" hidden>
+                <div id="certifications-entries" class="repeating-entries">
+                  <div class="entry-row" data-entry="certifications">
+                    <div class="entry-fields">
+                      <div class="field-group">
+                        <label>Certification Name</label>
+                        <input type="text" name="optional_sections[certifications][entries][][name]" placeholder="AWS Certified Developer">
+                      </div>
+                      <div class="field-row">
+                        <div class="field-group">
+                          <label>Issuing Organisation</label>
+                          <input type="text" name="optional_sections[certifications][entries][][issuer]" placeholder="Amazon Web Services">
+                        </div>
+                        <div class="field-group">
+                          <label>Date</label>
+                          <input type="month" name="optional_sections[certifications][entries][][date]">
+                        </div>
+                      </div>
+                    </div>
+                    <button type="button" class="btn-remove-entry" aria-label="Remove certification entry">Remove</button>
+                  </div>
+                </div>
+                <button type="button" class="btn-add-entry" data-target="certifications-entries" data-entry="certifications">
+                  + Add Certification
+                </button>
+              </div>
+            </div>
+
+            <!-- Awards & Honors -->
+            <div class="optional-section" id="optional-awards">
+              <label class="toggle-label">
+                <input type="checkbox" class="optional-toggle" data-section="awards">
+                <span class="toggle-switch" aria-hidden="true"></span>
+                Awards &amp; Honors
+              </label>
+              <div class="optional-section-fields" hidden>
+                <div id="awards-entries" class="repeating-entries">
+                  <div class="entry-row" data-entry="awards">
+                    <div class="entry-fields">
+                      <div class="field-row">
+                        <div class="field-group">
+                          <label>Award Title</label>
+                          <input type="text" name="optional_sections[awards][entries][][title]" placeholder="Employee of the Year">
+                        </div>
+                        <div class="field-group">
+                          <label>Organisation</label>
+                          <input type="text" name="optional_sections[awards][entries][][organization]" placeholder="Acme Corp">
+                        </div>
+                        <div class="field-group">
+                          <label>Date</label>
+                          <input type="month" name="optional_sections[awards][entries][][date]">
+                        </div>
+                      </div>
+                      <div class="field-group">
+                        <label>Description</label>
+                        <textarea name="optional_sections[awards][entries][][description]" rows="2"></textarea>
+                      </div>
+                    </div>
+                    <button type="button" class="btn-remove-entry" aria-label="Remove award entry">Remove</button>
+                  </div>
+                </div>
+                <button type="button" class="btn-add-entry" data-target="awards-entries" data-entry="awards">
+                  + Add Award
+                </button>
+              </div>
+            </div>
+
+            <!-- Languages -->
+            <div class="optional-section" id="optional-languages">
+              <label class="toggle-label">
+                <input type="checkbox" class="optional-toggle" data-section="languages">
+                <span class="toggle-switch" aria-hidden="true"></span>
+                Languages
+              </label>
+              <div class="optional-section-fields" hidden>
+                <div id="languages-entries" class="repeating-entries">
+                  <div class="entry-row" data-entry="languages">
+                    <div class="entry-fields">
+                      <div class="field-row">
+                        <div class="field-group">
+                          <label>Language</label>
+                          <input type="text" name="optional_sections[languages][entries][][language]" placeholder="Spanish">
+                        </div>
+                        <div class="field-group">
+                          <label>Proficiency</label>
+                          <select name="optional_sections[languages][entries][][proficiency]">
+                            <option value="">Select…</option>
+                            <option value="Native">Native</option>
+                            <option value="Fluent">Fluent</option>
+                            <option value="Advanced">Advanced</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Basic">Basic</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="button" class="btn-remove-entry" aria-label="Remove language entry">Remove</button>
+                  </div>
+                </div>
+                <button type="button" class="btn-add-entry" data-target="languages-entries" data-entry="languages">
+                  + Add Language
+                </button>
+              </div>
+            </div>
+
+            <!-- Publications & Research -->
+            <div class="optional-section" id="optional-publications">
+              <label class="toggle-label">
+                <input type="checkbox" class="optional-toggle" data-section="publications">
+                <span class="toggle-switch" aria-hidden="true"></span>
+                Publications &amp; Research
+              </label>
+              <div class="optional-section-fields" hidden>
+                <div id="publications-entries" class="repeating-entries">
+                  <div class="entry-row" data-entry="publications">
+                    <div class="entry-fields">
+                      <div class="field-group">
+                        <label>Title</label>
+                        <input type="text" name="optional_sections[publications][entries][][title]" placeholder="Paper title">
+                      </div>
+                      <div class="field-row">
+                        <div class="field-group">
+                          <label>Journal / Conference</label>
+                          <input type="text" name="optional_sections[publications][entries][][journal]" placeholder="IEEE Transactions…">
+                        </div>
+                        <div class="field-group">
+                          <label>Date</label>
+                          <input type="month" name="optional_sections[publications][entries][][date]">
+                        </div>
+                      </div>
+                      <div class="field-group">
+                        <label>URL</label>
+                        <input type="url" name="optional_sections[publications][entries][][url]" placeholder="https://doi.org/…">
+                      </div>
+                    </div>
+                    <button type="button" class="btn-remove-entry" aria-label="Remove publication entry">Remove</button>
+                  </div>
+                </div>
+                <button type="button" class="btn-add-entry" data-target="publications-entries" data-entry="publications">
+                  + Add Publication
+                </button>
+              </div>
+            </div>
+
+            <!-- Professional Memberships -->
+            <div class="optional-section" id="optional-memberships">
+              <label class="toggle-label">
+                <input type="checkbox" class="optional-toggle" data-section="memberships">
+                <span class="toggle-switch" aria-hidden="true"></span>
+                Professional Memberships
+              </label>
+              <div class="optional-section-fields" hidden>
+                <div id="memberships-entries" class="repeating-entries">
+                  <div class="entry-row" data-entry="memberships">
+                    <div class="entry-fields">
+                      <div class="field-row">
+                        <div class="field-group">
+                          <label>Organisation</label>
+                          <input type="text" name="optional_sections[memberships][entries][][organization]" placeholder="IEEE">
+                        </div>
+                        <div class="field-group">
+                          <label>Role</label>
+                          <input type="text" name="optional_sections[memberships][entries][][role]" placeholder="Member">
+                        </div>
+                        <div class="field-group">
+                          <label>Date</label>
+                          <input type="month" name="optional_sections[memberships][entries][][date]">
+                        </div>
+                      </div>
+                    </div>
+                    <button type="button" class="btn-remove-entry" aria-label="Remove membership entry">Remove</button>
+                  </div>
+                </div>
+                <button type="button" class="btn-add-entry" data-target="memberships-entries" data-entry="memberships">
+                  + Add Membership
+                </button>
+              </div>
+            </div>
+
+            <!-- References -->
+            <div class="optional-section" id="optional-references">
+              <label class="toggle-label">
+                <input type="checkbox" class="optional-toggle" data-section="references">
+                <span class="toggle-switch" aria-hidden="true"></span>
+                References
+              </label>
+              <div class="optional-section-fields" hidden>
+                <div id="references-entries" class="repeating-entries">
+                  <div class="entry-row" data-entry="references">
+                    <div class="entry-fields">
+                      <div class="field-row">
+                        <div class="field-group">
+                          <label>Name</label>
+                          <input type="text" name="optional_sections[references][entries][][name]" placeholder="John Doe">
+                        </div>
+                        <div class="field-group">
+                          <label>Title</label>
+                          <input type="text" name="optional_sections[references][entries][][title]" placeholder="Senior Manager">
+                        </div>
+                      </div>
+                      <div class="field-row">
+                        <div class="field-group">
+                          <label>Company</label>
+                          <input type="text" name="optional_sections[references][entries][][company]" placeholder="Acme Corp">
+                        </div>
+                        <div class="field-group">
+                          <label>Contact</label>
+                          <input type="text" name="optional_sections[references][entries][][contact]" placeholder="john@example.com">
+                        </div>
+                      </div>
+                    </div>
+                    <button type="button" class="btn-remove-entry" aria-label="Remove reference entry">Remove</button>
+                  </div>
+                </div>
+                <button type="button" class="btn-add-entry" data-target="references-entries" data-entry="references">
+                  + Add Reference
+                </button>
+              </div>
+            </div>
+
+          </section><!-- /optional sections -->
+
+        </form><!-- /cv-form -->
+
+        <!-- ── Action Buttons ── -->
+        <div class="action-bar">
+          <button id="btn-save-cv" class="btn btn-save" type="button">
+            Save CV
+          </button>
+          <a id="btn-download-pdf" class="btn btn-primary btn-disabled" href="#" target="_blank" aria-disabled="true">
+            Download PDF
+          </a>
+          <a id="btn-download-docx" class="btn btn-secondary btn-disabled" href="#" target="_blank" aria-disabled="true">
+            Download DOCX
+          </a>
+          <button id="btn-delete-cv" class="btn btn-danger" type="button">
+            Delete CV
+          </button>
+        </div>
+
+        <div id="save-status" class="save-status" aria-live="polite"></div>
+
+      </div><!-- /form-panel-inner -->
+    </div><!-- /form-panel -->
+
+  </div><!-- /app-layout -->
+
+  <script src="client.js"></script>
+</body>
+</html>

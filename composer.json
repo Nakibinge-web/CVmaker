@@ -1,0 +1,31 @@
+{
+    "name": "cv-maker/cv-maker",
+    "description": "CV Maker",
+    "type": "project",
+    "require": {
+        "dompdf/dompdf": "^3.1",
+        "phpoffice/phpword": "^1.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5"
+    },
+    "autoload": {
+        "files": []
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "audit": {
+            "ignore": ["PKSA-z3gr-8qht-p93v"]
+        }
+    },
+    "authors": [
+        {
+            "name": "Nakibinge",
+            "email": "nakibingecollins1@gmail.com"
+        }
+    ]
+}
