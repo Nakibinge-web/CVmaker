@@ -2,6 +2,7 @@
 .env
 .env.*
 !.env.example
+db.php
 
 # ── Composer dependencies ──
 /vendor/

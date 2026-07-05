@@ -836,9 +836,9 @@ class CVForm {
 // ---------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
   const formEl    = document.getElementById('cv-form');
-  const previewEl = document.getElementById('preview-pane');
+  const previewEl = document.getElementById('preview-pane') || document.createElement('div');
 
-  if (formEl && previewEl) {
+  if (formEl) {
     const cvForm = new CVForm(formEl, previewEl);
     cvForm.init();
   }
